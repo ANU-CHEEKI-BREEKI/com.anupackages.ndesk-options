@@ -343,7 +343,8 @@ namespace Tests
       Assert.AreEqual(p.GetOptionForName("h"), p[0]);
       Assert.AreEqual(p.GetOptionForName("help"), p[0]);
 
-      Utils.AssertException(typeof(KeyNotFoundException), "The given key was not present in the dictionary.", p, v => {
+      // modern BCL includes the missing key in the message
+      Utils.AssertException(typeof(KeyNotFoundException), "The given key 'invalid' was not present in the dictionary.", p, v => {
         p.GetOptionForName("invalid");
       });
 

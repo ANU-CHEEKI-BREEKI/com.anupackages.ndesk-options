@@ -26,9 +26,15 @@ namespace Tests {
       if (!(actualType == exception)) {
         throw new InvalidOperationException($"Assertion failed: Expected Exception Type {exception}, got {actualType}.\n" + $"Actual Exception: {stack}");
       }
-      if (actualMessage != message) {
+      if (Normalize(actualMessage) != Normalize(message)) {
         throw new InvalidOperationException($"Assertion failed:\n\tExpected: {message}\n\t  Actual: {actualMessage}");
       }
+    }
+
+    // expected messages are written with \r\n, but the runtime builds them with
+    // Environment.NewLine, which is \n on macOS and Linux editors
+    private static string Normalize(string message) {
+      return message?.Replace("\r\n", "\n");
     }
   }
 }
